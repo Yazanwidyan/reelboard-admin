@@ -265,3 +265,14 @@ h1 .badge { margin-left: 8px; font-size: 12px; }
 .mini-posters { display: grid; grid-template-columns: repeat(4, 22px); gap: 2px; }
 .mini-posters img, .mini-posters span { width: 22px; height: 33px; border-radius: 2px; object-fit: cover; background: var(--surface-2); display: block; }
 textarea.input { resize: vertical; }
+
+/* ---- Reports: one card per reported thing */
+.nav-link { display: flex; align-items: center; gap: 8px; }
+.nav-count { margin-left: auto; min-width: 20px; padding: 0 6px; border-radius: 999px; background: var(--danger); color: var(--bg); font-size: 11px; font-weight: 800; text-align: center; line-height: 18px; }
+.case .row + * { margin-top: 10px; }
+.case-title { font-size: 15px; }
+.case-quote { background: var(--surface-2); border-radius: 6px; padding: 8px 12px; overflow-wrap: anywhere; }
+.case-reports { margin-top: 10px; }
+.case-report { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 8px 0; border-top: 1px solid var(--border); }
+.case-meta { font-size: 12px; white-space: nowrap; }
+.case-resolution { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }

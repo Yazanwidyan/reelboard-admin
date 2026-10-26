@@ -37,7 +37,9 @@ Rebuild after changing the admin site's code. The backend picks up the new files
   - its films: picked by hand (from the pool or any TMDB search), or a rule — a TMDB collection (or several), a director, an actor's lead roles or a studio, with a minimum vote count and how many to keep — previewed from TMDB as you build it
   - its ranks, each by film count or by a share of the films
   - its picture: automatic, or one of its films' backdrops, the franchise's backdrop or the person's photo
-- **Clubs:** every club with its owner and size. Remove one if needed.
+- **Clubs:** every club with its owner and size. Open one to rename it, change or clear its description, or take films off its shared board; or remove it.
+- **Reports:** what people reported from the app (a person, one of a friend's lists, a club they're in), one case per reported thing, most-reported first, with a count by Reports in the sidebar. Close a case — and every report in it — by removing the list or club, suspending its owner, marking it handled (you fixed it yourself), or dismissing it.
+- **Log:** everything admins changed here — who, what and when — filterable by kind (reports, accounts, lists, clubs, collections, movies).
 
 ## Where changes go
 

@@ -7,9 +7,11 @@ import { Brand } from "./components/Logo";
 import { ClubDetail } from "./pages/ClubDetail";
 import { Clubs } from "./pages/Clubs";
 import { Dashboard } from "./pages/Dashboard";
+import { Log } from "./pages/Log";
 import { Login } from "./pages/Login";
 import { MovieEdit } from "./pages/MovieEdit";
 import { Movies } from "./pages/Movies";
+import { Reports } from "./pages/Reports";
 import { SagaEdit } from "./pages/SagaEdit";
 import { Sagas } from "./pages/Sagas";
 import { UserDetail } from "./pages/UserDetail";
@@ -21,6 +23,8 @@ const NAV = [
   ["/movies", "Movies & vibes"],
   ["/collections", "Collections"],
   ["/clubs", "Clubs"],
+  ["/reports", "Reports"],
+  ["/log", "Log"],
 ];
 
 // Follows the stored token (signing in, signing out, or a 401 clearing it).
@@ -38,6 +42,13 @@ export const App = () => {
   const token = useToken();
   const queryClient = useQueryClient();
   const me = useQuery({ queryKey: ["admin", "me", token], queryFn: () => get("/admin/me"), enabled: Boolean(token) });
+  // Open report cases, for the badge by Reports — checked every minute.
+  const reportCount = useQuery({
+    queryKey: ["admin", "reports", "count"],
+    queryFn: () => get("/admin/reports/count"),
+    enabled: Boolean(token) && me.isSuccess,
+    refetchInterval: 60 * 1000,
+  });
 
   const signOut = () => {
     setToken(null);
@@ -65,6 +76,7 @@ export const App = () => {
   }
 
   const user = me.data.user;
+  const openReports = reportCount.data?.open ?? 0;
   return (
     <div className="app">
       <nav className="sidebar">
@@ -72,6 +84,7 @@ export const App = () => {
         {NAV.map(([to, label]) => (
           <NavLink key={to} to={to} end={to === "/"} className="nav-link">
             {label}
+            {to === "/reports" && openReports > 0 && <span className="nav-count">{openReports}</span>}
           </NavLink>
         ))}
         <div className="sidebar-footer">
@@ -98,6 +111,8 @@ export const App = () => {
           <Route path="/sagas/*" element={<Navigate to="/collections" replace />} />
           <Route path="/clubs" element={<Clubs />} />
           <Route path="/clubs/:id" element={<ClubDetail />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/log" element={<Log />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
