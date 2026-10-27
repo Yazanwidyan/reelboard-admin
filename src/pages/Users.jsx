@@ -29,6 +29,7 @@ export const Users = () => {
         <div className="segmented">
           {[
             ["all", "All"],
+            ["pro", "Pro"],
             ["suspended", "Suspended"],
           ].map(([key, label]) => (
             <button
@@ -77,6 +78,7 @@ export const Users = () => {
                     </td>
                     <td>
                       <strong>{user.name}</strong> <span className="muted">{user.handle}</span>
+                      {user.pro && <span className="badge badge-rank" style={{ marginLeft: 6 }}>Pro</span>}
                       {user.suspendedAt && <span className="badge badge-danger" style={{ marginLeft: 6 }}>Suspended</span>}
                     </td>
                     <td className="muted">{user.email}</td>
@@ -89,7 +91,7 @@ export const Users = () => {
                 ))}
               </tbody>
             </table>
-            {users.data.users.length === 0 && <div className="empty">{status === "suspended" ? "No suspended accounts." : "No accounts match."}</div>}
+            {users.data.users.length === 0 && <div className="empty">{status === "suspended" ? "No suspended accounts." : status === "pro" ? "No Pro accounts." : "No accounts match."}</div>}
           </div>
           <Pager page={page} totalPages={users.data.totalPages} total={users.data.total} onChange={setPage} />
         </>

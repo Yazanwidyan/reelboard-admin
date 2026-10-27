@@ -66,6 +66,45 @@ const Suspension = ({ user, suspension, onChange }) => {
   );
 };
 
+// ReelBoard Pro, given by hand until the app stores sell it: for a month,
+// a year, or with no end — or taken away.
+const Pro = ({ user, onChange }) => {
+  const grant = useMutation({ mutationFn: (months) => api("POST", `/admin/users/${user.id}/pro`, { months }), onSuccess: onChange });
+  const revoke = useMutation({ mutationFn: () => api("DELETE", `/admin/users/${user.id}/pro`), onSuccess: onChange });
+  const busy = grant.isPending || revoke.isPending;
+  const { pro } = user;
+  return (
+    <div className="card stack">
+      <div>
+        <h2>ReelBoard Pro</h2>
+        <div className="muted">
+          {pro?.active
+            ? `Pro since ${formatDate(pro.since)}${pro.until ? `, until ${formatDate(pro.until)}` : ", with no end"}${pro.source === "admin" ? " (given here)" : ""}.`
+            : "Not Pro. Pro unlocks deeper taste stats and profile style (a PRO badge and an accent colour)."}
+        </div>
+      </div>
+      <div className="row wrap">
+        <button className="btn" disabled={busy} onClick={() => grant.mutate(1)}>
+          {pro?.active ? "Set to 1 month" : "Give 1 month"}
+        </button>
+        <button className="btn" disabled={busy} onClick={() => grant.mutate(12)}>
+          {pro?.active ? "Set to 1 year" : "Give 1 year"}
+        </button>
+        <button className="btn" disabled={busy} onClick={() => grant.mutate(null)}>
+          {pro?.active ? "Make it no end" : "Give with no end"}
+        </button>
+        <span className="spacer" />
+        {pro?.active && (
+          <button className="btn btn-danger" disabled={busy} onClick={() => window.confirm(`Take Pro away from ${user.handle}?`) && revoke.mutate()}>
+            Take Pro away
+          </button>
+        )}
+      </div>
+      {(grant.error ?? revoke.error) && <div className="error">{(grant.error ?? revoke.error).message}</div>}
+    </div>
+  );
+};
+
 // What they've written or put up on their profile, each with a way to
 // clear it.
 const ProfileContent = ({ user, onChange }) => {
@@ -188,6 +227,7 @@ export const UserDetail = ({ me }) => {
             <h1>
               {user.displayName} {suspension && <span className="badge badge-danger">Suspended</span>}
               {detail.data.isAdmin && <span className="badge badge-accent">Admin</span>}
+              {user.pro?.active && <span className="badge badge-rank">Pro</span>}
             </h1>
             <div className="sub">
               {user.handle} · {user.email} · joined {formatDate(user.createdAt)}
@@ -252,6 +292,8 @@ export const UserDetail = ({ me }) => {
           )}
         </div>
       </div>
+
+      <Pro user={user} onChange={refresh} />
 
       {protectedAccount ? (
         <div className="card">

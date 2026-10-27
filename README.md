@@ -28,7 +28,7 @@ Rebuild after changing the admin site's code. The backend picks up the new files
 ## What each section does
 
 - **Dashboard:** accounts, active people (today / this week / this month), what's been watched, saved and tiered, sign-ups for the last 30 days, the most watched and most S-tiered movies, and how many people started and finished each saga.
-- **Users:** search accounts by name, @handle or email. Open one to see their level, library, tiers and recent activity, or to delete the account (you type their handle to confirm). You can't delete your own account here.
+- **Users:** search accounts by name, @handle or email (or list only Pro or suspended ones). Open one to see their level, library, tiers and recent activity, or to delete the account (you type their handle to confirm). You can't delete your own account here. Give or take away ReelBoard Pro there too (for a month, a year or with no end) — until the app stores sell it, this is how people get it.
 - **Movies & vibes:** the pool, the other movies the server has stored, or a search across all of TMDB. Open a movie to:
   - hand-tune its six Taste DNA scores and up to three themes
   - set its franchise
