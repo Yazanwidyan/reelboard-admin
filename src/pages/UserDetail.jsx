@@ -252,7 +252,6 @@ export const UserDetail = ({ me }) => {
         <Tile label="Watched" value={number(counts.watched)} />
         <Tile label="Watchlist" value={number(counts.watchlist)} />
         <Tile label="Lists" value={number(counts.boards)} />
-        <Tile label="Clubs" value={number(counts.clubs)} />
         <Tile label="Friends" value={number(counts.friends)} />
       </div>
 
@@ -310,7 +309,7 @@ export const UserDetail = ({ me }) => {
           <div className="card">
             <h2>Danger zone</h2>
             <p className="muted" style={{ marginTop: 0 }}>
-              Deleting an account removes its library, tiers, lists, clubs it owns and friendships. It can't be undone — suspend it instead to keep a way back.
+              Deleting an account removes its library, tiers, lists and friendships. It can't be undone — suspend it instead to keep a way back.
             </p>
             <button className="btn btn-danger" onClick={confirmDelete} disabled={remove.isPending}>
               {remove.isPending ? "Deleting…" : "Delete account"}

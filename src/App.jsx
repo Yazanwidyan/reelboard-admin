@@ -4,8 +4,6 @@ import { NavLink, Navigate, Route, Routes } from "react-router-dom";
 
 import { get, getToken, setToken } from "./api";
 import { Brand } from "./components/Logo";
-import { ClubDetail } from "./pages/ClubDetail";
-import { Clubs } from "./pages/Clubs";
 import { Dashboard } from "./pages/Dashboard";
 import { Log } from "./pages/Log";
 import { Login } from "./pages/Login";
@@ -22,7 +20,6 @@ const NAV = [
   ["/users", "Users"],
   ["/movies", "Movies & vibes"],
   ["/collections", "Collections"],
-  ["/clubs", "Clubs"],
   ["/reports", "Reports"],
   ["/log", "Log"],
 ];
@@ -109,8 +106,6 @@ export const App = () => {
           <Route path="/collections/:id" element={<SagaEdit />} />
           {/* Old links: collections were called sagas here. */}
           <Route path="/sagas/*" element={<Navigate to="/collections" replace />} />
-          <Route path="/clubs" element={<Clubs />} />
-          <Route path="/clubs/:id" element={<ClubDetail />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/log" element={<Log />} />
           <Route path="*" element={<Navigate to="/" replace />} />

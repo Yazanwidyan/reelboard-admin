@@ -11,7 +11,6 @@ const KINDS = [
   ["report", "Reports"],
   ["user", "Accounts"],
   ["list", "Lists"],
-  ["club", "Clubs"],
   ["saga", "Collections"],
   ["movie", "Movies"],
 ];
@@ -21,7 +20,6 @@ const linkTo = (target) =>
   target &&
   {
     user: `/users/${target.id}`,
-    club: `/clubs/${target.id}`,
     saga: `/collections/${target.id}`,
     movie: `/movies/${target.id}`,
   }[target.type];

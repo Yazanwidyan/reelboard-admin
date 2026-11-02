@@ -17,14 +17,14 @@ const REASONS = {
   impersonation: "Impersonation",
   other: "Something else",
 };
-const TYPE_LABELS = { user: "Person", list: "List", club: "Club" };
+const TYPE_LABELS = { user: "Person", list: "List", club: "Club (removed)" };
 
 // Where to look at the reported thing here.
 const targetLink = (item) =>
-  item.targetType === "club" ? `/clubs/${item.targetId}` : item.targetType === "user" ? `/users/${item.targetId}` : item.owner && `/users/${item.owner.id}`;
+  item.targetType === "user" ? `/users/${item.targetId}` : item.owner && `/users/${item.owner.id}`;
 
 // What the reported thing looks like now: a list's posters, a person's
-// bio, a club's description.
+// bio.
 const TargetPreview = ({ item }) => {
   if (item.gone) return <div className="muted">It's gone — deleted since it was reported.</div>;
   const { target } = item;
@@ -44,7 +44,6 @@ const TargetPreview = ({ item }) => {
   return (
     <div className="case-quote">
       {text ? text : <span className="muted">{item.targetType === "user" ? "No bio." : "No description."}</span>}
-      {item.targetType === "club" && <div className="muted">{target.memberCount} members</div>}
     </div>
   );
 };
@@ -155,7 +154,7 @@ export const Reports = () => {
         <div>
           <h1>Reports</h1>
           <div className="sub">
-            What people reported from the app: a person, one of their lists, or a club. Closing a case closes every report about it.
+            What people reported from the app: a person, or one of their lists. Closing a case closes every report about it.
           </div>
         </div>
       </div>
