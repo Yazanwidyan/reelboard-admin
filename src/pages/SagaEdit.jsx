@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { api, get, query } from "../api";
 import { Poster, QueryState, useDebounced } from "../components/shared";
@@ -225,19 +225,30 @@ const AppPreview = ({ form, art, films, ranks, counts }) => (
 
 // A collection: its name, where its films come from, its ranks and its
 // picture — new (/collections/new) or existing — with how it looks in the
-// app alongside.
+// app alongside. A new one can start from a draft (Drafts' "Review"): who
+// it's about and their films, picked — so they stay as they are.
 export const SagaEdit = () => {
   const { id } = useParams();
   const isNew = !id;
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const detail = useQuery({ queryKey: ["admin", "saga", id], queryFn: () => get(`/admin/sagas/${id}`), enabled: !isNew });
+  const location = useLocation();
+  const draft = isNew ? (location.state?.draft ?? null) : null;
 
-  const [form, setForm] = useState({ slug: "", title: "", subtitle: "", kind: "franchise" });
+  const [form, setForm] = useState(() =>
+    draft
+      ? { slug: slugify(draft.person), title: draft.person, subtitle: "", kind: draft.kind }
+      : { slug: "", title: "", subtitle: "", kind: "franchise" },
+  );
   const [source, setSource] = useState("picked");
   const [rule, setRule] = useState(emptyRule);
-  const [ranks, setRanks] = useState([toEditable({ title: "", at: 1 }), toEditable({ title: "", at: "all" })]);
-  const [films, setFilms] = useState([]);
+  const [ranks, setRanks] = useState(() =>
+    draft
+      ? [toEditable({ title: "Started", at: 1 }), toEditable({ title: "Completed", at: "all" })]
+      : [toEditable({ title: "", at: 1 }), toEditable({ title: "", at: "all" })],
+  );
+  const [films, setFilms] = useState(() => draft?.movies ?? []);
   // The picked picture (null: automatic), and what it was when loaded.
   const [art, setArt] = useState(null);
   const [loadedArt, setLoadedArt] = useState(null);
@@ -285,6 +296,7 @@ export const SagaEdit = () => {
               : { title: rank.title.trim(), at: Number(rank.at) },
         ),
         ...(isNew || imageOf(art) !== imageOf(loadedArt) ? { art } : {}),
+        ...(draft && !isRule ? { person: draft.person } : {}),
       };
       return isNew ? api("POST", "/admin/sagas", { id: form.slug, ...payload }) : api("PATCH", `/admin/sagas/${id}`, payload);
     },

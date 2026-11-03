@@ -5,6 +5,7 @@ import { NavLink, Navigate, Route, Routes } from "react-router-dom";
 import { get, getToken, setToken } from "./api";
 import { Brand } from "./components/Logo";
 import { Dashboard } from "./pages/Dashboard";
+import { Drafts } from "./pages/Drafts";
 import { Log } from "./pages/Log";
 import { Login } from "./pages/Login";
 import { MovieEdit } from "./pages/MovieEdit";
@@ -103,6 +104,7 @@ export const App = () => {
           <Route path="/movies/:id" element={<MovieEdit />} />
           <Route path="/collections" element={<Sagas />} />
           <Route path="/collections/new" element={<SagaEdit />} />
+          <Route path="/collections/drafts" element={<Drafts />} />
           <Route path="/collections/:id" element={<SagaEdit />} />
           {/* Old links: collections were called sagas here. */}
           <Route path="/sagas/*" element={<Navigate to="/collections" replace />} />

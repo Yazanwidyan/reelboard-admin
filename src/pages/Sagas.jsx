@@ -17,9 +17,14 @@ export const Sagas = () => {
             {sagas.data ? `${sagas.data.sagas.length} collections · ` : ""}Edits are live in the app and saved to data/curation.json.
           </div>
         </div>
-        <Link to="/collections/new" className="btn btn-primary">
-          New collection
-        </Link>
+        <div className="row">
+          <Link to="/collections/drafts" className="btn">
+            Drafts
+          </Link>
+          <Link to="/collections/new" className="btn btn-primary">
+            New collection
+          </Link>
+        </div>
       </div>
       {sagas.data ? (
         <div className="saga-cards">
